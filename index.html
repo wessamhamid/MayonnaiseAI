@@ -1,0 +1,653 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Web Page</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <style>
+        .rounded-all { border-radius: 0.5rem; }
+        .sticky-sidebar {
+            position: sticky;
+            top: 0;
+            bottom: 0;
+        }
+    </style>
+</head>
+<body class="bg-gray-100 text-gray-900">
+    <div class="flex">
+        <!-- Sidebar -->
+        <div class="w-20 h-screen bg-black shadow-md flex flex-col justify-between sticky-sidebar">
+            <div>
+                <div class="p-7 text-xl font-semibold flex items-center">
+                    <i class="fas fa-robot text-white mr-3"></i>
+                </div>
+                <nav class="mt-4">
+                    <a href="#" id="toggleProjectButton" class="flex items-center p-8 text-gray-400 hover:bg-gray-200 bg-gray-800">
+                        <i class="fas fa-project-diagram mr-3"></i>
+                    </a>
+                    <a href="#" class="flex items-center p-8 text-gray-400 hover:bg-gray-200">
+                        <i class="fas fa-building mr-3"></i>
+                    </a>
+                    <a href="#" class="flex items-center p-8 text-gray-400 hover:bg-gray-200">
+                        <i class="fas fa-file-alt mr-3"></i>
+                    </a>
+                    <a href="#" class="flex items-center p-8 text-gray-400 hover:bg-gray-200">
+                        <i class="fas fa-cog mr-3"></i>
+                    </a>
+                    <!-- <div class="p-4 text-center">
+                        <button id="toggleSidebarButton" class="text-gray-700 bg-gray-300 p-2 rounded-full focus:outline-none">
+                            <i id="sidebarIcon" class="fas fa-arrow-left"></i>
+                        </button>
+                    </div> -->
+                </nav>
+            </div>
+        </div>
+        <div class="w-60 px-4 py-3 h-screen bg-gray-900 shadow-md flex flex-col justify-between sticky-sidebar">
+            <div>
+                <div class="p-2 text-xl text-white font-semibold flex items-center">
+                    <h2 class="text-2xl font-semibold">Project 1</h2>
+                </div>
+                <div class="px-2 py-0 text-xl text-white font-semibold flex items-center">
+                    <!-- <p class="text-sm text-gray-500">ELLM/MyWorkspace/MyProject</p> -->
+                </div>
+                <!-- Second Sidebar -->
+                <nav class="mt-6">
+                    <div class="px-2 text-l text-gray-300 font-semibold flex items-center">
+                        Modules
+                    </div>
+                    <a href="#" id="workflowTab" class="flex items-center p-2 text-gray-300 rounded-all hover:bg-gray-500">
+                        <i class="fas fa-table mr-3"></i> GenTable
+                    </a>
+                    <div class="ml-9 text-center">
+                        <a href="#" id="flow1Tab" class="flex items-center p-1 text-gray-400 rounded-all hover:bg-gray-500">
+                            <i class="fas fa-th-list mr-3"></i> Research Assistant
+                        </a>
+                        <a href="#" class="flex items-center p-1 text-gray-400 rounded-all hover:bg-gray-500">
+                            <i class="fas fa-th-list mr-3"></i> Recipie Assistant
+                        </a>
+                    </div>
+                    <a href="#" id="knowledgeTab" class="flex items-center p-2 text-gray-300 rounded-all hover:bg-gray-500">
+                        <i class="fas fa-book mr-3"></i> Knowledge
+                    </a>
+                    <!-- <a href="#" id="chatButton" class="flex items-center p-2 text-gray-300 rounded-all hover:bg-gray-500">
+                        <i class="fas fa-comment mr-3"></i> Chat
+                    </a> -->
+                </nav>
+            </div>
+        </div>
+
+        <!-- Main Content -->
+        <div class="flex-1 p-6 overflow-auto">
+            <div class="flex justify-between items-center rounded-all">
+                <div>
+                    <!-- <h2 class="text-2xl font-semibold">Test</h2> -->
+                    <p class="text-sm text-gray-500">Project ID: proj_ee975dbd8ab64cb2c4160e8a</p>
+                </div>
+                <div class="flex items-right space-x-4">
+                    <button id="deleteSelectedButton" class="bg-gray-200 text-gray-700 px-4 py-2 rounded-all hidden"><i class="fas fa-trash mr-3"></i>Delete</button>
+                    <div class="relative group">
+                        <button id="menuButton" class="bg-blue-500 text-white px-4 py-2 rounded-all">
+                            <i class="fas fa-plus mr-10 ml-10"></i>
+                        </button>
+                        <div class="absolute right-0 mt-2 w-32 bg-white border rounded shadow-lg hidden" id="addMenu">
+                            <a href="#" id="addRowButton" class="block px-4 py-2 text-gray-700 hover:bg-gray-100 rounded-all">Flow</a>
+                            <a href="#" id="addInputButton" class="block px-4 py-2 text-gray-700 hover:bg-gray-100 rounded-all">Input</a>
+                            <a href="#" id="addOutputButton" class="block px-4 py-2 text-gray-700 hover:bg-gray-100 rounded-all">Output</a>
+                        </div>
+                    </div>
+                    <div class="relative">
+                        <button class="bg-gray-200 text-gray-700 px-4 py-2 rounded-all focus:outline-none" id="actionsButton">
+                            Actions <i class="fas fa-caret-down ml-2"></i>
+                        </button>
+                        <div class="absolute right-0 mt-2 w-48 bg-white border rounded shadow-lg hidden" id="actionsMenu">
+                            <a href="#" class="block px-4 py-2 text-gray-700 hover:bg-gray-100 rounded-all">Import rows</a>
+                            <a href="#" class="block px-4 py-2 text-gray-700 hover:bg-gray-100 rounded-all">Export rows (.csv)</a>
+                        </div>
+                    </div>
+                    <button id="chatButton" class="bg-gray-200 text-gray-700 p-2 rounded-all"><i class="fas fa-comment"></i></button>
+                </div>
+            </div>
+            <div class="bg-white shadow-md rounded-all mt-6 overflow-auto">
+                <table class="min-w-full divide-y divide-gray-200 rounded-all">
+                    <thead>
+                        <tr class="bg-gray-50">
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                <input type="checkbox" id="selectAllColumns">
+                            </th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"><input type="checkbox" class="colCheckbox"></th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"><input type="checkbox" class="colCheckbox"></th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"><input type="checkbox" class="colCheckbox"></th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"><input type="checkbox" class="colCheckbox"></th>
+                        </tr>
+                        <tr class="bg-gray-50">
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                <input type="checkbox" id="selectAllRows">
+                            </th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">ID</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Updated at</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Input: User</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Output: LLM</th>
+                        </tr>
+                    </thead>
+                    <tbody class="bg-white divide-y divide-gray-200 rounded-all" id="chatTableBody">
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <!-- Chat Interface -->
+    <div id="chatInterface" class="hidden fixed top-0 bottom-0 right-0 left-80 bg-gray-200 shadow-lg rounded-all p-4 flex flex-col">
+        <div class="flex justify-between items-center mb-4">
+            <h2 class="text-lg font-semibold mt-5">Chat</h2>
+            <button id="closeChatButton" class="text-gray-500 hover:text-gray-700 mr-5 mt-3"><i class="fas fa-times"></i></button>
+        </div>
+        <div class="mb-4">
+            <select id="inputColumnSelect" class="p-2 border rounded">
+                <option value="3" selected>Input: User</option>
+            </select>
+            <select id="outputColumnSelect" class="p-2 border rounded ml-2">
+                <option value="4" selected>Output: LLM</option>
+            </select>
+        </div>
+        <div class="flex-1 overflow-y-auto" id="chatMessages">
+            <div class="flex flex-col items-start">
+                <div class="p-2 bg-gray-100 rounded-all mb-2 text-left inline-block">Hello! How can I help you today?</div>
+            </div>
+        </div>
+        <div class="mt-4 flex items-center">
+            <input type="text" id="chatInput" class="w-full p-2 border rounded-all" placeholder="Type your message...">
+            <button id="sendButton" class="ml-2 bg-blue-500 text-white px-4 py-2 rounded-all"><i class="fas fa-paper-plane"></i></button>
+        </div>
+    </div>
+    
+    <!-- Knowledge Interface -->
+    <div id="knowledgeInterface" class="hidden fixed top-0 bottom-0 right-0 left-80 bg-gray-200 shadow-lg rounded-all p-6 flex flex-col space-y-6">
+        <h2 class="text-2xl font-semibold">Knowledge Base</h2>
+        <div>
+            <h3 class="text-xl font-medium mb-4">Add Knowledge Source:</h3>
+            <div class="grid grid-cols-2 gap-4 mb-4 sm:grid-cols-4">
+                <button class="bg-gray-300 text-gray-700 px-3 py-2 rounded-all">Upload File</button>
+                <button class="bg-gray-300 text-gray-700 px-3 py-2 rounded-all">Plain Text</button>
+                <button class="bg-gray-300 text-gray-700 px-3 py-2 rounded-all">Sitemap</button>
+                <button class="bg-gray-300 text-gray-700 px-3 py-2 rounded-all">URL</button>
+            </div>
+            <input type="text" placeholder="Search existing data sources..." class="p-2 border rounded-all w-full">
+        </div>
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mt-4">
+            <button class="bg-white p-6 rounded-lg shadow-md text-left">
+                <h4 class="text-lg font-semibold mb-2">Knowledgebase 1</h4>
+                <p class="text-sm text-gray-500">Description for project 1.</p>
+            </button>
+            <button class="bg-white p-6 rounded-lg shadow-md text-left">
+                <h4 class="text-lg font-semibold mb-2">Knowledgebase 2</h4>
+                <p class="text-sm text-gray-500">Description for project 2.</p>
+            </button>
+            <button class="bg-white p-6 rounded-lg shadow-md text-left">
+                <h4 class="text-lg font-semibold mb-2">Knowledgebase 3</h4>
+                <p class="text-sm text-gray-500">Description for project 3.</p>
+            </button>
+        </div>
+    </div>
+
+    <script>
+        // document.getElementById('workflowTab').addEventListener('click', function() {
+        //     document.querySelector('.flex-1.p-6').classList.remove('hidden');
+        //     document.getElementById('chatInterface').classList.add('hidden');
+        //     document.getElementById('knowledgeInterface').classList.add('hidden');
+        //     setActiveTab(this);
+        // });
+
+        document.getElementById('flow1Tab').addEventListener('click', function() {
+            document.querySelector('.flex-1.p-6').classList.remove('hidden');
+            document.getElementById('chatInterface').classList.add('hidden');
+            document.getElementById('knowledgeInterface').classList.add('hidden');
+            setActiveTab(this);
+        });
+
+        document.getElementById('knowledgeTab').addEventListener('click', function() {
+            document.querySelector('.flex-1.p-6').classList.add('hidden');
+            document.getElementById('chatInterface').classList.add('hidden');
+            document.getElementById('knowledgeInterface').classList.remove('hidden');
+            setActiveTab(this);
+        });
+
+        // document.getElementById('chatButton').addEventListener('click', function() {
+        //     document.querySelector('.flex-1.p-6').classList.add('hidden');
+        //     document.getElementById('chatInterface').classList.remove('hidden');
+        //     document.getElementById('knowledgeInterface').classList.add('hidden');
+        //     setActiveTab(this);
+        // });
+
+        window.addEventListener('DOMContentLoaded', (event) => {
+            document.getElementById('flow1Tab').classList.add('bg-gray-700');
+            document.querySelector('.flex-1.p-6').classList.remove('hidden');
+            document.getElementById('chatInterface').classList.add('hidden');
+            document.getElementById('knowledgeInterface').classList.add('hidden');
+        });
+
+        function setActiveTab(activeElement) {
+            document.querySelectorAll('nav a').forEach(function(link) {
+                link.classList.remove('bg-gray-700');
+            });
+            activeElement.classList.add('bg-gray-700');
+        }
+        document.getElementById('chatButton').addEventListener('click', function() {
+            var chat = document.getElementById('chatInterface');
+            chat.classList.toggle('hidden');
+        });
+
+        document.getElementById('closeChatButton').addEventListener('click', function() {
+            var chat = document.getElementById('chatInterface');
+            chat.classList.add('hidden');
+        });
+
+        document.addEventListener('keydown', function(event) {
+            if (event.key === 'Escape') {
+                var chat = document.getElementById('chatInterface');
+                chat.classList.add('hidden');
+            }
+        });
+
+        function refreshChatMessages() {
+            var chatMessages = document.getElementById('chatMessages');
+            chatMessages.innerHTML = ''; // Clear previous messages
+
+            var inputColIndex = parseInt(document.getElementById('inputColumnSelect').value);
+            var outputColIndex = parseInt(document.getElementById('outputColumnSelect').value);
+
+            // If no columns are selected, do not display messages
+            if (isNaN(inputColIndex) || isNaN(outputColIndex)) {
+                return;
+            }
+
+            var rows = document.querySelectorAll('#chatTableBody tr');
+            rows.forEach(function(row) {
+                var inputText = row.cells[inputColIndex] ? row.cells[inputColIndex].textContent : '';
+                var outputText = row.cells[outputColIndex] ? row.cells[outputColIndex].textContent : '';
+
+                if (inputText.trim()) {
+                    var userMessage = document.createElement('div');
+                    userMessage.className = 'p-2 bg-blue-100 rounded-all mb-2 text-right inline-block';
+                    userMessage.textContent = inputText;
+
+                    var inputContainer = document.createElement('div');
+                    inputContainer.className = 'flex flex-col items-end';
+                    inputContainer.appendChild(userMessage);
+                    chatMessages.appendChild(inputContainer);
+                }
+
+                if (outputText.trim()) {
+                    var responseMessage = document.createElement('div');
+                    responseMessage.className = 'p-2 bg-gray-100 rounded-all mb-2 text-left inline-block';
+                    responseMessage.textContent = outputText;
+
+                    var outputContainer = document.createElement('div');
+                    outputContainer.className = 'flex flex-col items-start';
+                    outputContainer.appendChild(responseMessage);
+                    chatMessages.appendChild(outputContainer);
+                }
+            });
+        }
+
+        // document.getElementById('inputColumnSelect').addEventListener('change', refreshChatMessages);
+        document.getElementById('inputColumnSelect').addEventListener('change', function() {
+            var selectedInputIndex = parseInt(this.value);
+            var outputSelect = document.getElementById('outputColumnSelect');
+            
+            Array.from(outputSelect.options).forEach(function(option) {
+                option.disabled = parseInt(option.value) <= selectedInputIndex;
+            });
+            
+            if (outputSelect.selectedIndex !== -1 && outputSelect.options[outputSelect.selectedIndex].disabled) {
+                outputSelect.selectedIndex = -1; // Clear selected option if it is no longer valid
+            }
+
+            refreshChatMessages(); // Optional: call function to update messages
+        });
+        document.getElementById('outputColumnSelect').addEventListener('change', refreshChatMessages);
+
+        document.getElementById('sendButton').addEventListener('click', sendMessage);
+        document.getElementById('chatInput').addEventListener('keypress', function(event) {
+            if (event.key === 'Enter') {
+                sendMessage();
+            }
+        });
+
+        document.getElementById('sendButton').addEventListener('click', sendMessage);
+        document.getElementById('chatInput').addEventListener('keypress', function(event) {
+            if (event.key === 'Enter') {
+                sendMessage();
+            }
+        });
+
+        window.addEventListener('DOMContentLoaded', (event) => {
+            var chatTableBody = document.getElementById('chatTableBody');
+            var inputSelect = document.getElementById('inputColumnSelect');
+            inputSelect.dispatchEvent(new Event('change')); // Trigger change event to initialize output options
+            var newRow = chatTableBody.insertRow();
+            newRow.innerHTML = `
+                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                    <input type="checkbox" class="rowCheckbox">
+                </td>
+                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">1</td>
+                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">${new Date().toISOString()}</td>
+                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">N/A</td>
+                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">Hello! How can I help you today?</td>
+            `;
+
+            newRow.querySelector('.rowCheckbox').addEventListener('change', updateDeleteButtonVisibility);
+        });
+
+        document.addEventListener('keypress', function (event) {
+            if (event.target.classList.contains('user-input') && event.key === 'Enter') {
+                var inputText = event.target.value.trim();
+                if (inputText !== "") {
+                    var parent = event.target.parentElement;
+                    parent.textContent = inputText;  
+
+                    // Add edited text to chat
+                    var chatMessages = document.getElementById('chatMessages');
+                    var userMessage = document.createElement('div');
+                    userMessage.className = 'p-2 bg-blue-100 rounded-all mb-2 text-right inline-block';
+                    userMessage.textContent = inputText;
+
+                    var messageContainer = document.createElement('div');
+                    messageContainer.className = 'flex flex-col items-end';
+                    messageContainer.appendChild(userMessage);
+
+                    chatMessages.appendChild(messageContainer);
+                }
+            }
+        });
+
+        document.getElementById('toggleProjectButton').addEventListener('click', function() {
+            var secondSidebar = document.querySelector('.w-60.px-4.py-3.h-screen.bg-gray-900.shadow-md');
+            var sidebarIcon = document.querySelector('#toggleProjectButton i');
+            var chatInterface = document.getElementById('chatInterface');
+            var knowledgeInterface = document.getElementById('knowledgeInterface');
+            
+            secondSidebar.classList.toggle('hidden');
+            if (secondSidebar.classList.contains('hidden')) {
+                sidebarIcon.classList.remove('fa-arrow-left');
+                sidebarIcon.classList.add('fa-arrow-right');
+                chatInterface.style.left = '5rem'; // Width of the first sidebar
+                knowledgeInterface.style.left = '5rem';
+            } else {
+                sidebarIcon.classList.remove('fa-arrow-right');
+                sidebarIcon.classList.add('fa-arrow-left');
+                chatInterface.style.left = '20rem'; // Width of both sidebars
+                knowledgeInterface.style.left = '20rem';
+            }
+        });
+
+        document.getElementById('actionsButton').addEventListener('click', function() {
+            var menu = document.getElementById('actionsMenu');
+            menu.classList.toggle('hidden');
+        });
+
+        var menuButton = document.getElementById('menuButton');
+        var addMenu = document.getElementById('addMenu');
+        var showTimeout, hideTimeout;
+
+        function showMenu() {
+            clearTimeout(hideTimeout);
+            showTimeout = setTimeout(function() {
+                addMenu.classList.remove('hidden');
+            },); // Delay in milliseconds
+        }
+
+        function hideMenu() {
+            clearTimeout(showTimeout);
+            hideTimeout = setTimeout(function() {
+                addMenu.classList.add('hidden');
+            }, 100); // Delay in milliseconds
+        }
+
+        menuButton.addEventListener('mouseenter', showMenu);
+        menuButton.addEventListener('mouseleave', function(event) {
+            var toElement = event.relatedTarget;
+            if (toElement !== addMenu && !addMenu.contains(toElement)) {
+                hideMenu();
+            }
+        });
+
+        addMenu.addEventListener('mouseenter', function() {
+            clearTimeout(hideTimeout);
+            addMenu.classList.remove('hidden');
+        });
+        addMenu.addEventListener('mouseleave', function(event) {
+            var toElement = event.relatedTarget;
+            if (toElement !== menuButton && !menuButton.contains(toElement)) {
+                hideMenu();
+            }
+        });
+
+        document.getElementById('addRowButton').addEventListener('click', function() {
+            var chatTableBody = document.getElementById('chatTableBody');
+            var newRow = chatTableBody.insertRow();
+            
+            // Insert checkbox cell
+            newRow.innerHTML = `
+                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                    <input type="checkbox" class="rowCheckbox">
+                </td>
+                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">New</td>
+                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">${new Date().toISOString()}</td>
+            `;
+            
+            // Add input/output cells based on the headers
+            var headerRow = document.querySelector('thead tr:nth-child(2)');
+            for (var i = 3; i < headerRow.cells.length; i++) {
+                var headerText = headerRow.cells[i].textContent.trim() || headerRow.cells[i].querySelector('input').value;
+                var isEditable = headerText.startsWith('Input');
+                var newCell = newRow.insertCell(i);
+                newCell.className = 'px-6 py-4 whitespace-nowrap text-sm text-gray-500';
+                
+                if (isEditable) {
+                    newCell.innerHTML = '<input type="text" class="user-input p-1 border rounded-all w-full">';
+                } else {
+                    newCell.textContent = 'N/A';
+                }
+            }
+        });
+
+        function updateDeleteButtonVisibility() {
+            var rowCheckboxes = document.querySelectorAll('.rowCheckbox');
+            var colCheckboxes = document.querySelectorAll('.colCheckbox');
+            var deleteButton = document.getElementById('deleteSelectedButton');
+
+            var anyRowChecked = Array.from(rowCheckboxes).some(cb => cb.checked);
+            var anyColChecked = Array.from(colCheckboxes).some(cb => cb.checked);
+
+            if (anyRowChecked || anyColChecked) {
+                deleteButton.classList.remove('hidden');
+            } else {
+                deleteButton.classList.add('hidden');
+            }
+        }
+
+        // Extract the header input listener to apply to both column headers and new input fields
+        function applyHeaderInputListener(input) {
+            input.addEventListener('keypress', function (event) {
+                if (event.key === 'Enter') {
+                    var newName = event.target.value.trim();
+                    if (newName !== "") {
+                        var parent = event.target.parentElement;
+                        parent.innerHTML = newName;
+                    }
+                }
+            });
+        }
+
+        function createColumn(name, isEditable) {
+            var selectAllColumnsCheckbox = document.getElementById('selectAllColumns');
+
+            // Add checkbox for the new column
+            var checkboxRow = document.querySelector('thead tr:first-child');
+            var newCheckboxCell = document.createElement('th');
+            newCheckboxCell.className = 'px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider';
+            newCheckboxCell.innerHTML = `<input type="checkbox" class="colCheckbox">`;
+            checkboxRow.appendChild(newCheckboxCell);
+
+            // Add header for the new column
+            var headerRow = document.querySelector('thead tr:nth-child(2)');
+            var newHeader = document.createElement('th');
+            newHeader.className = 'px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider';
+            newHeader.innerHTML = `<input type="text" value="${name}" class="header-input p-1 border rounded-all w-full">`;
+            headerRow.appendChild(newHeader);
+
+            // Add cells for the new column in all rows
+            var chatTableRows = document.querySelectorAll('#chatTableBody tr');
+            chatTableRows.forEach(function(row) {
+                var newCell = document.createElement('td');
+                newCell.className = 'px-6 py-4 whitespace-nowrap text-sm text-gray-500';
+                if (isEditable) {
+                    newCell.innerHTML = '<input type="text" class="user-input p-1 border rounded-all w-full">';
+                } else {
+                    newCell.textContent = 'N/A';
+                }
+                row.appendChild(newCell);
+            });
+
+            var option = new Option(name, headerRow.cells.length - 1);
+            if (isEditable) {
+                document.getElementById('inputColumnSelect').add(option, undefined);
+            } else {
+                document.getElementById('outputColumnSelect').add(option, undefined);
+            }
+
+            // Apply event listener to new header input
+            applyHeaderInputListener(newHeader.querySelector('.header-input'));
+
+            // Apply event listener to all existing header inputs
+            var headerInputs = document.querySelectorAll('.header-input');
+            headerInputs.forEach(applyHeaderInputListener);
+        }
+
+        document.getElementById('addInputButton').addEventListener('click', function() {
+            createColumn('Input Column', true);
+        });
+
+        document.getElementById('addOutputButton').addEventListener('click', function() {
+            createColumn('Output Column', false);
+        });
+
+        function sendMessage() {
+            var chatInput = document.getElementById('chatInput');
+            var message = chatInput.value;
+            if (message.trim() !== "") {
+                // Add message to chat interface
+                var chatMessages = document.getElementById('chatMessages');
+                var userMessage = document.createElement('div');
+                userMessage.className = 'p-2 bg-blue-100 rounded-all mb-2 text-right inline-block';
+                userMessage.textContent = message;
+
+                var messageContainer = document.createElement('div');
+                messageContainer.className = 'flex flex-col items-end';
+                messageContainer.appendChild(userMessage);
+
+                chatMessages.appendChild(messageContainer);
+
+                // Add message to table
+                var chatTableBody = document.getElementById('chatTableBody');
+                var newRow = chatTableBody.insertRow();
+                newRow.innerHTML = `
+                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                        <input type="checkbox" class="rowCheckbox">
+                    </td>
+                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">New</td>
+                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">${new Date().toISOString()}</td>
+                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">${message}</td>
+                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">N/A</td>
+                `;
+
+                // Clear input
+                chatInput.value = "";
+            }
+        }
+
+        document.getElementById('deleteSelectedButton').addEventListener('click', function() {
+            var selectAllColumnsCheckbox = document.getElementById('selectAllColumns');
+            var selectAllRowsCheckbox = document.getElementById('selectAllRows');
+
+            var colCheckboxes = document.querySelectorAll('.colCheckbox:checked');
+            var rowCheckboxes = document.querySelectorAll('.rowCheckbox:checked');
+            var allCols = Array.from(document.querySelectorAll('.colCheckbox'));
+
+            if (selectAllColumnsCheckbox.checked) {
+                document.querySelectorAll('tr').forEach(function(row) {
+                    while (row.cells.length > 1) {
+                        row.deleteCell(1);
+                    }
+                });
+            } else {
+                // Collect column indexes to delete
+                var columnsToDelete = [];
+                colCheckboxes.forEach(function(checkbox) {
+                    var colIndex = allCols.indexOf(checkbox) + 1;
+                    columnsToDelete.push(colIndex);
+                });
+
+                // Sort column indexes in reverse
+                columnsToDelete.sort(function(a, b) { return b - a; });
+
+                // Delete columns from end to start
+                columnsToDelete.forEach(function(index) {
+                    document.querySelectorAll('tr').forEach(function(row) {
+                        if (row.cells.length > index) {
+                            row.deleteCell(index);
+                        }
+                    });
+                });
+            }
+
+            // Delete rows
+            rowCheckboxes.forEach(function(checkbox) {
+                var row = checkbox.closest('tr');
+                row.parentNode.removeChild(row);
+            });
+
+            // Uncheck all checkboxes
+            selectAllColumnsCheckbox.checked = false;
+            selectAllRowsCheckbox.checked = false;
+            document.querySelectorAll('.colCheckbox').forEach(function(checkbox) {
+                checkbox.checked = false;
+            });
+            document.querySelectorAll('.rowCheckbox').forEach(function(checkbox) {
+                checkbox.checked = false;
+            });
+
+            updateDeleteButtonVisibility();
+        });
+
+        document.querySelectorAll('.rowCheckbox').forEach(function(checkbox) {
+            checkbox.addEventListener('change', updateDeleteButtonVisibility);
+        });
+
+        document.querySelectorAll('.colCheckbox').forEach(function(checkbox) {
+            checkbox.addEventListener('change', updateDeleteButtonVisibility);
+        });
+
+        document.getElementById('selectAllRows').addEventListener('change', function() {
+            var checkboxes = document.querySelectorAll('.rowCheckbox');
+            checkboxes.forEach(function(checkbox) {
+                checkbox.checked = this.checked;
+            }, this);
+
+            updateDeleteButtonVisibility();
+        });
+
+        document.getElementById('selectAllColumns').addEventListener('change', function() {
+            var colCheckboxes = document.querySelectorAll('.colCheckbox');
+            colCheckboxes.forEach(function(checkbox) {
+                checkbox.checked = this.checked;
+            }, this);
+
+            updateDeleteButtonVisibility();
+        });
+    </script>
+</body>
+</html>
